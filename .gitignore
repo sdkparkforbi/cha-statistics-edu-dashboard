@@ -2,3 +2,6 @@ _check_*.png
 _chk_*.png
 __pycache__/
 .claude/
+data_survey.json
+data_usage.json
+*.local.json
