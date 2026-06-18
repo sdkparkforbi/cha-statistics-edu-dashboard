@@ -147,6 +147,16 @@
     background:rgba(196,85,77,.10);border:1px solid rgba(196,85,77,.25);
     padding:2px 7px;border-radius:5px;margin-left:8px;vertical-align:middle;}
 
+  /* 자유응답 카드 (대시보드 표시 형태 재현) */
+  .free-ex{display:flex;flex-direction:column;gap:10px;}
+  .free-card{background:var(--panel-2);border-left:3px solid var(--gold);
+    padding:11px 14px;border-radius:6px;font-size:13px;line-height:1.55;color:var(--text);}
+  .free-card.improve{border-left-color:var(--rust);}
+  .free-card .fmeta{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);margin-bottom:5px;}
+  .free-card .flabel{display:inline-block;font-size:10px;padding:2px 7px;background:var(--gold);
+    color:#fff;border-radius:4px;margin-right:7px;font-weight:700;letter-spacing:.02em;}
+  .free-card.improve .flabel{background:var(--rust);}
+
   footer{margin-top:54px;padding:24px 0;border-top:1px solid var(--line);
     color:var(--muted);font-size:11.5px;display:flex;gap:16px;flex-wrap:wrap;}
   footer b{color:var(--ink);}
@@ -186,7 +196,7 @@
       <span class="chip"><b>14</b> 문항</span>
       <span class="chip"><b>5</b>점 리커트</span>
       <span class="chip"><b>3</b> 모드</span>
-      <span class="chip"><b>7</b> 그림 · <b>8</b> 표</span>
+      <span class="chip"><b>8</b> 그림 · <b>9</b> 표</span>
     </div>
   </div>
 
@@ -210,8 +220,8 @@
       <li><a href="#s2">핵심 지표 (KPI)</a> <span>— 표 1</span></li>
       <li><a href="#s3">측정 모형: 6구인 14문항</a> <span>— 그림 2·3, 표 2·3</span></li>
       <li><a href="#s4">인터랙션 모드</a> <span>— 그림 4, 표 4</span></li>
-      <li><a href="#s5">분석 항목</a> <span>— 그림 5·6·7, 표 5·6</span></li>
-      <li><a href="#s6">시스템·데이터 구조</a> <span>— 표 7·8</span></li>
+      <li><a href="#s5">분석 항목</a> <span>— 그림 5·6·7·8, 표 5·6·7</span></li>
+      <li><a href="#s6">시스템·데이터 구조</a> <span>— 표 8·9</span></li>
     </ol>
   </nav>
 
@@ -425,30 +435,74 @@
 
     <h3 class="sub">자유응답</h3>
     <p>
-      객관식 외에 학습자가 직접 작성한 의견을 최신 20건까지 보여줍니다. 각 응답은
-      <span class="mode-pill mp-ftf" style="background:var(--gold)">도움</span>(도움된 점, <span class="mono">free_helpful</span>) 또는
-      <span class="mode-pill" style="background:var(--rust)">개선</span>(개선 의견, <span class="mono">free_improvement</span>)으로 구분되며,
-      작성 시각과 해당 응답의 종합점수가 함께 표시됩니다.
+      객관식 문항이 담지 못하는 <b>구체적인 맥락과 제안</b>을 수집하기 위해, 설문 마지막에는 두 개의
+      주관식 칸을 둡니다. 대시보드는 여기에 작성된 의견을 <b>최신순 20건</b>까지 카드 형태로 보여주며,
+      목록이 길어지면 스크롤로 탐색할 수 있습니다. 객관식 점수만으로는 “왜 그렇게 평가했는지”를 알기 어렵기 때문에,
+      자유응답은 <b>정량 지표를 해석하는 근거</b>이자 <b>교육봇 개선의 실마리</b> 역할을 합니다.
     </p>
+    <p>
+      각 응답은 두 갈래로 구분되어 색으로 구별됩니다 —
+      <span class="mode-pill" style="background:var(--gold)">도움</span> 카드는 “무엇이 도움이 되었는지”(<span class="mono">free_helpful</span>)를,
+      <span class="mode-pill" style="background:var(--rust)">개선</span> 카드는 “무엇을 개선하면 좋을지”(<span class="mono">free_improvement</span>)를 담습니다.
+      한 학습자가 두 칸을 모두 작성하면 <b>카드 2장</b>이 만들어지고, 한쪽만 작성하면 그 한 장만 표시됩니다.
+      각 카드 상단에는 <b>작성 시각</b>(<span class="mono">submitted_at</span>, 한국 시간)과 그 응답자의
+      <b>종합점수</b>(<span class="mono">overall_score</span>, 5점)가 함께 적혀, 정성 의견을 정량 점수와 연결해 읽을 수 있습니다.
+    </p>
+
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 7.</b> 자유응답 카드 구성 항목</div>
+      <table>
+        <thead><tr><th>항목</th><th class="code">변수명</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mode-pill" style="background:var(--gold)">도움</span> 도움된 점</td><td class="mono">free_helpful</td><td>교육봇 사용에서 도움이 된 점 — <b>골드</b> 좌측 띠 카드</td></tr>
+          <tr><td><span class="mode-pill" style="background:var(--rust)">개선</span> 개선 의견</td><td class="mono">free_improvement</td><td>개선이 필요하다고 느낀 점 — <b>적색</b> 좌측 띠 카드</td></tr>
+          <tr><td>종합점수</td><td class="mono">overall_score</td><td>해당 응답자의 종합 인식 점수(/5) — 카드 메타에 표기</td></tr>
+          <tr><td>작성 시각</td><td class="mono">submitted_at</td><td>설문 제출 일시 — <b>최신순 정렬</b> 기준</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>다음은 카드가 화면에 표시되는 형태의 예시입니다. 두 번째 도움 카드와 첫 번째 개선 카드는 작성 시각·종합점수가 같은데, 이는 <b>같은 응답자가 두 칸을 모두 작성</b>해 카드 2장이 생성된 경우를 보여줍니다.</p>
+    <figure>
+      <div class="free-ex">
+        <div class="free-card">
+          <div class="fmeta"><span class="flabel">도움</span>2026-06-10 14:22 · 종합 4.5/5</div>
+          퀴즈를 풀다 막힌 문제를 바로 챗봇에 물어볼 수 있어 좋았습니다. 표준편차 계산을 단계별로 풀어줘서 이해가 됐어요.
+        </div>
+        <div class="free-card">
+          <div class="fmeta"><span class="flabel">도움</span>2026-06-09 21:05 · 종합 4.0/5</div>
+          아바타와 대화하니 교수님께 질문하는 느낌이라 부담이 덜했고, 모르는 걸 여러 번 물어봐도 편했습니다.
+        </div>
+        <div class="free-card improve">
+          <div class="fmeta"><span class="flabel">개선</span>2026-06-09 21:05 · 종합 4.0/5</div>
+          수식이 길어질 때 화면에서 잘려 보여 가독성이 떨어졌어요. 답변이 길면 핵심을 먼저 요약해주면 좋겠습니다.
+        </div>
+        <div class="free-card improve">
+          <div class="fmeta"><span class="flabel">개선</span>2026-06-08 16:40 · 종합 3.5/5</div>
+          음성 모드에서 인식이 가끔 안 돼 같은 질문을 두 번 해야 했습니다.
+        </div>
+      </div>
+      <figcaption><b>그림 6.</b> 자유응답 카드 표시 형태 — 도움(골드)·개선(적색) <span class="illus">예시 데이터</span></figcaption>
+    </figure>
 
     <h3 class="sub">사용 통계</h3>
     <p>설문과 별개로, 교육봇의 실제 사용 로그를 일자별·시간대별로 집계합니다.</p>
     <figure>
       <img src="fig-daily.svg" alt="일자별 사용 막대 차트" />
-      <figcaption><b>그림 6.</b> 일자별 사용 — 세션 수와 활성 사용자 수 <span class="illus">예시 데이터</span></figcaption>
+      <figcaption><b>그림 7.</b> 일자별 사용 — 세션 수와 활성 사용자 수 <span class="illus">예시 데이터</span></figcaption>
     </figure>
     <figure>
       <img src="fig-hourly.svg" alt="시간대별 사용 막대 차트" />
-      <figcaption><b>그림 7.</b> 시간대별 사용 — 0–23시 메시지 분포 <span class="illus">예시 데이터</span></figcaption>
+      <figcaption><b>그림 8.</b> 시간대별 사용 — 0–23시 메시지 분포 <span class="illus">예시 데이터</span></figcaption>
     </figure>
   </section>
 
   <!-- 6. 시스템·데이터 -->
   <section id="s6">
     <div class="sec-head"><span class="no">06</span><h2>시스템·데이터 구조</h2><span class="en">Architecture &amp; Data</span></div>
-    <p>대시보드는 정적 클라이언트로서, 토큰 인증 헤더(<span class="mono">X-Dashboard-Token</span>)와 함께 API를 호출하여 두 가지 요약 데이터를 받습니다. API 액션은 표 7과 같습니다.</p>
+    <p>대시보드는 정적 클라이언트로서, 토큰 인증 헤더(<span class="mono">X-Dashboard-Token</span>)와 함께 API를 호출하여 두 가지 요약 데이터를 받습니다. API 액션은 표 8과 같습니다.</p>
     <div class="tbl-wrap">
-      <div class="tbl-cap"><b>표 7.</b> API 액션 / 엔드포인트</div>
+      <div class="tbl-cap"><b>표 8.</b> API 액션 / 엔드포인트</div>
       <table>
         <thead><tr><th class="code">action</th><th>내용</th><th>주요 반환</th></tr></thead>
         <tbody>
@@ -462,9 +516,9 @@
       차트 라이브러리: Chart.js 4.4 · 호스팅: Vercel.
     </p>
 
-    <p>API가 반환하는 주요 데이터 필드(스키마)의 의미는 표 8과 같습니다.</p>
+    <p>API가 반환하는 주요 데이터 필드(스키마)의 의미는 표 9와 같습니다.</p>
     <div class="tbl-wrap">
-      <div class="tbl-cap"><b>표 8.</b> 데이터 필드(스키마) 명세</div>
+      <div class="tbl-cap"><b>표 9.</b> 데이터 필드(스키마) 명세</div>
       <table>
         <thead><tr><th class="code">필드</th><th>구조</th><th>설명</th></tr></thead>
         <tbody>
@@ -487,7 +541,7 @@
     </div>
 
     <div class="note">
-      <b>📌 데이터에 대한 안내.</b> 본 보고서의 그림 3–7과 표 6의 수치는 대시보드의 표시 형태를 설명하기 위한
+      <b>📌 데이터에 대한 안내.</b> 본 보고서의 그림 3–8과 표 6–7의 수치·예문은 대시보드의 표시 형태를 설명하기 위한
       <b>예시(개념 이해용) 데이터</b>입니다. 실제 집계 수치는 대시보드 토큰이 필요하며, 상단의
       <a href="https://cha-statistics-bot-liveavatar.vercel.app/dashboard/" target="_blank" rel="noopener">라이브 대시보드</a>에서 확인할 수 있습니다.
       토큰으로 받은 실데이터를 제공해 주시면 동일한 그림·표에 실제 값을 채워 드릴 수 있습니다.
