@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>경영통계 교육봇 · 학습자 인식 대시보드 안내</title>
+<meta name="description" content="경영통계 교육봇(AI 챗봇)의 학습자 인식 설문 대시보드 안내 페이지 — 6개 구인 · 14개 문항 · 5점 리커트, 3가지 인터랙션 모드(FTF·STS·TTT), 사용 통계 측정 체계를 정리했습니다." />
+
+<!-- Open Graph / 썸네일 -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="경영통계 교육봇 · 학습자 인식 대시보드" />
+<meta property="og:description" content="6개 구인 · 14개 문항 · 5점 리커트 / FTF·STS·TTT 멀티모달 / 사용 통계 측정 체계" />
+<meta property="og:image" content="thumbnail.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="thumbnail.png" />
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #faf8f3;
+    --panel:     #ffffff;
+    --panel-2:   #f5f1e8;
+    --line:      #e8e1d3;
+    --line-hot:  #d4c9b3;
+    --text:      #2a2620;
+    --muted:     #8a8275;
+    --dim:       #b5ad9d;
+    --gold:      #b88a5e;
+    --gold-bright: #d4a574;
+    --gold-soft: #e8d3b8;
+    --forest:    #5a7d6b;
+    --rust:      #c4554d;
+    --slate:     #4a6b85;
+    --plum:      #8c6b9d;
+    --ink:       #2a2620;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0;
+    background:
+      radial-gradient(800px 400px at 100% 0%, rgba(184,138,94,0.06), transparent 60%),
+      radial-gradient(600px 400px at 0% 100%, rgba(90,125,107,0.04), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Pretendard','Noto Sans KR',sans-serif;
+    font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; min-height: 100vh;
+  }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Top Bar ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 24px; padding: 16px 28px;
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 16px;
+    box-shadow: 0 4px 12px rgba(184,138,94,0.25);
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .brand-title { font-weight: 800; font-size: 15px; letter-spacing: -0.01em; color: var(--ink); }
+  .brand-sub { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .topbar .actions { display: flex; gap: 8px; }
+  .btn {
+    background: var(--gold); color: #fff; border: 1px solid var(--gold);
+    padding: 9px 16px; font: inherit; font-size: 12px; font-weight: 700;
+    border-radius: 8px; cursor: pointer; transition: all 0.15s; text-decoration: none;
+  }
+  .btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); text-decoration: none; }
+  .btn.ghost { background: var(--panel); color: var(--text); border-color: var(--line-hot); }
+  .btn.ghost:hover { color: var(--gold); border-color: var(--gold); background: var(--panel); }
+
+  main { padding: 28px; max-width: 1180px; margin: 0 auto; }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f1e8 100%);
+    border: 1px solid var(--line); border-radius: 20px;
+    padding: 48px 44px; margin-bottom: 12px; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; right: -60px; top: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,138,94,0.10), transparent 70%);
+  }
+  .hero .eyebrow {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold);
+    background: rgba(184,138,94,0.10); padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 {
+    margin: 0 0 14px; font-size: 34px; font-weight: 800; letter-spacing: -0.02em;
+    color: var(--ink); line-height: 1.2;
+  }
+  .hero p { margin: 0; font-size: 15px; color: var(--muted); max-width: 720px; }
+  .hero .cta { margin-top: 26px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; position: relative; }
+  .chip {
+    font-size: 12px; font-weight: 600; color: var(--ink);
+    background: var(--panel); border: 1px solid var(--line-hot);
+    padding: 7px 13px; border-radius: 999px;
+  }
+  .chip b { color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+
+  /* ── Section ── */
+  .section-header {
+    display: flex; align-items: baseline; gap: 14px;
+    margin: 40px 0 18px; padding-left: 14px; border-left: 4px solid var(--gold);
+  }
+  .section-header h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+  .section-header .section-sub { color: var(--muted); font-size: 12px; font-weight: 500; }
+  .section-header.edu { border-left-color: var(--forest); }
+  .section-header.edu h2 { color: var(--forest); }
+
+  /* ── KPI ── */
+  .kpi-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .kpi .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+  .kpi .kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.1; letter-spacing: -0.02em; }
+  .kpi .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .kpi.gold .kpi-value { color: var(--gold); }
+  .kpi.forest .kpi-value { color: var(--forest); }
+  .kpi.slate .kpi-value { color: var(--slate); }
+
+  /* ── Cards grid ── */
+  .card-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); margin-top: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .card h3 { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .card .card-note { font-size: 11.5px; color: var(--muted); margin: 0 0 14px; }
+  .full { grid-column: 1 / -1; }
+
+  /* ── Construct bars ── */
+  .construct-list { display: flex; flex-direction: column; gap: 16px; }
+  .construct-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+  .construct-label { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .construct-label small { display: block; font-size: 10.5px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+  .construct-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    color: var(--gold); align-self: start;
+  }
+  .construct-bar { grid-column: 1 / -1; height: 8px; background: var(--panel-2); border-radius: 5px; overflow: hidden; }
+  .construct-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); border-radius: 5px; }
+  .construct-bar-fill.f { background: linear-gradient(90deg, var(--forest), #7ba390); }
+  .construct-bar-fill.s { background: linear-gradient(90deg, var(--slate), #6f8ea3); }
+
+  /* ── Table ── */
+  table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.data th, table.data td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  table.data th { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; background: var(--panel-2); }
+  table.data td.code { font-family: 'JetBrains Mono', monospace; color: var(--gold); font-weight: 600; font-size: 11.5px; }
+  table.data td.tag { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 11px; }
+  table.data tr:hover td { background: rgba(184,138,94,0.04); }
+
+  /* ── Mode cards ── */
+  .mode-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .mode {
+    border: 1px solid var(--line); border-radius: 14px; padding: 20px; background: var(--panel);
+    border-top: 3px solid var(--gold);
+  }
+  .mode.sts { border-top-color: var(--forest); }
+  .mode.ttt { border-top-color: var(--slate); }
+  .mode .mode-code { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+  .mode.sts .mode-code { color: var(--forest); }
+  .mode.ttt .mode-code { color: var(--slate); }
+  .mode h4 { margin: 8px 0 8px; font-size: 16px; font-weight: 800; color: var(--ink); }
+  .mode p { margin: 0; font-size: 12.5px; color: var(--muted); }
+
+  .measure-list { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 14px; }
+  .measure { background: var(--panel-2); border-radius: 12px; padding: 16px; }
+  .measure .m-ic { font-size: 22px; }
+  .measure h4 { margin: 8px 0 4px; font-size: 13px; font-weight: 700; color: var(--ink); }
+  .measure p { margin: 0; font-size: 11.5px; color: var(--muted); }
+
+  .arch { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .arch-node { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .arch-node .a-role { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .arch-node .a-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--ink); margin-top: 4px; word-break: break-all; }
+  .arch-node .a-desc { font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+
+  .note-box {
+    background: #fbf6ee; border: 1px solid var(--line-hot); border-left: 4px solid var(--gold);
+    border-radius: 10px; padding: 16px 18px; margin-top: 14px; font-size: 12.5px; color: var(--text);
+  }
+  .note-box b { color: var(--ink); }
+
+  footer {
+    margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--line);
+    display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+    color: var(--muted); font-size: 11.5px;
+  }
+  footer b { color: var(--ink); font-weight: 600; }
+  footer .sep { color: var(--dim); }
+
+  @media (max-width: 700px) {
+    main { padding: 16px; }
+    .topbar { padding: 12px 16px; gap: 12px; }
+    .brand-sub { display: none; }
+    .hero { padding: 32px 24px; }
+    .hero h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">통</div>
+    <div class="brand-text">
+      <span class="brand-title">경영통계 교육봇</span>
+      <span class="brand-sub">학습자 인식 대시보드 · v2_edu</span>
+    </div>
+  </div>
+  <div></div>
+  <div class="actions">
+    <a class="btn ghost" href="#instrument">설문 구조</a>
+    <a class="btn" href="https://cha-statistics-bot-liveavatar.vercel.app/dashboard/" target="_blank" rel="noopener">라이브 대시보드 ↗</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <span class="eyebrow">Learner Perception Dashboard · v2_edu</span>
+    <h1>경영통계 교육봇<br>학습자 인식 대시보드</h1>
+    <p>
+      AI 챗봇 기반 <b>경영통계 교육봇</b>을 사용한 학습자들의 인식을 측정하는 설문·사용 통계 대시보드입니다.
+      6개 구인과 14개 문항(5점 리커트)으로 학습 경험을 구조화하고, FTF·STS·TTT 멀티모달 인터랙션과
+      사용 패턴을 함께 추적합니다. 이 페이지는 대시보드가 측정하는 항목과 설문 구조를 정리한 안내 문서입니다.
+    </p>
+    <div class="cta">
+      <a class="btn" href="https://cha-statistics-bot-liveavatar.vercel.app/dashboard/" target="_blank" rel="noopener">라이브 대시보드 열기 ↗</a>
+      <a class="btn ghost" href="#instrument">설문 문항 보기</a>
+    </div>
+    <div class="chips">
+      <span class="chip"><b>6</b> 구인 · Constructs</span>
+      <span class="chip"><b>14</b> 문항 · Items</span>
+      <span class="chip"><b>5</b>점 리커트 척도</span>
+      <span class="chip"><b>3</b> 인터랙션 모드</span>
+    </div>
+  </section>
+
+  <!-- ── Overview ── -->
+  <div class="section-header">
+    <h2>대시보드가 보여주는 핵심 지표</h2>
+    <span class="section-sub">Overview KPIs</span>
+  </div>
+  <p style="color:var(--muted);font-size:12.5px;margin:0 0 14px;max-width:760px;">
+    라이브 대시보드 상단에는 다음 4개의 핵심 지표(KPI)가 실시간으로 집계되어 표시됩니다.
+    아래 값은 측정 항목과 단위를 설명하기 위한 예시 자리입니다.
+  </p>
+  <div class="kpi-grid">
+    <div class="kpi gold">
+      <div class="kpi-label">설문 응답</div>
+      <div class="kpi-value">N</div>
+      <div class="kpi-sub">유효 응답 건수 집계</div>
+    </div>
+    <div class="kpi forest">
+      <div class="kpi-label">평균 응답시간</div>
+      <div class="kpi-value">초</div>
+      <div class="kpi-sub">설문 작성 소요시간</div>
+    </div>
+    <div class="kpi slate">
+      <div class="kpi-label">평균 종합점수</div>
+      <div class="kpi-value">/5</div>
+      <div class="kpi-sub">5점 척도 종합 인식</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">대화 세션</div>
+      <div class="kpi-value">·</div>
+      <div class="kpi-sub">세션 · 사용자 수</div>
+    </div>
+  </div>
+
+  <!-- ── 설문 도구 / 구인 ── -->
+  <div class="section-header edu" id="instrument">
+    <h2>학습자 인식 측정 도구</h2>
+    <span class="section-sub">Learner Perception · 6 Constructs · 14 Items · 5-point Likert</span>
+  </div>
+
+  <div class="card-grid">
+    <!-- 구인별 -->
+    <div class="card">
+      <h3>6개 구인 · Construct Framework</h3>
+      <p class="card-note">막대는 5점 척도 기준 시각화 예시이며, 실제 평균은 라이브 대시보드에서 집계됩니다.</p>
+      <div class="construct-list">
+        <div class="construct-item">
+          <div class="construct-label">A. 퀴즈–챗봇 연동<small>퀴즈 연동형 novelty</small></div>
+          <div class="construct-tag">A_quiz</div>
+          <div class="construct-bar"><div class="construct-bar-fill" style="width:82%"></div></div>
+        </div>
+        <div class="construct-item">
+          <div class="construct-label">B. 멀티모달 인터랙션<small>모드 전환</small></div>
+          <div class="construct-tag">B_multimodal</div>
+          <div class="construct-bar"><div class="construct-bar-fill" style="width:78%"></div></div>
+        </div>
+        <div class="construct-item">
+          <div class="construct-label">C. 교수자 실재감<small>Teacher Presence</small></div>
+          <div class="construct-tag">C_presence</div>
+          <div class="construct-bar"><div class="construct-bar-fill f" style="width:85%"></div></div>
+        </div>
+        <div class="construct-item">
+          <div class="construct-label">D. 정확성·안전감<small>Trust</small></div>
+          <div class="construct-tag">D_accuracy</div>
+          <div class="construct-bar"><div class="construct-bar-fill s" style="width:80%"></div></div>
+        </div>
+        <div class="construct-item">
+          <div class="construct-label">E. 학습몰입·호기심<small>Flow</small></div>
+          <div class="construct-tag">E_flow</div>
+          <div class="construct-bar"><div class="construct-bar-fill" style="width:76%"></div></div>
+        </div>
+        <div class="construct-item">
+          <div class="construct-label">F. 인지된 학습효과<small>Perceived Learning</small></div>
+          <div class="construct-tag">F_learning</div>
+          <div class="construct-bar"><div class="construct-bar-fill f" style="width:83%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 문항별 -->
+    <div class="card">
+      <h3>14개 문항 · Item List</h3>
+      <p class="card-note">대시보드는 문항별 평균(M)·표준편차(SD)·응답수(n)를 표로 제공합니다.</p>
+      <table class="data">
+        <thead><tr><th>문항</th><th>내용</th><th>구인</th></tr></thead>
+        <tbody>
+          <tr><td class="code">Q1</td><td>퀴즈 즉시 질문</td><td class="tag">A</td></tr>
+          <tr><td class="code">Q2</td><td>챗봇 풀이 도움</td><td class="tag">A</td></tr>
+          <tr><td class="code">Q3</td><td>모드 전환 가능</td><td class="tag">B</td></tr>
+          <tr><td class="code">Q4</td><td>교수자 실재감</td><td class="tag">C</td></tr>
+          <tr><td class="code">Q5</td><td>부담 없는 분위기</td><td class="tag">C</td></tr>
+          <tr><td class="code">Q6</td><td>강의자료 일관성</td><td class="tag">C</td></tr>
+          <tr><td class="code">Q7</td><td>답변 정확성</td><td class="tag">D</td></tr>
+          <tr><td class="code">Q8</td><td>한계 솔직히 인정</td><td class="tag">D</td></tr>
+          <tr><td class="code">Q9</td><td>시간 빠르게 감</td><td class="tag">E</td></tr>
+          <tr><td class="code">Q10</td><td>호기심 생김</td><td class="tag">E</td></tr>
+          <tr><td class="code">Q11</td><td>개념 이해</td><td class="tag">F</td></tr>
+          <tr><td class="code">Q12</td><td>자신감 생김</td><td class="tag">F</td></tr>
+          <tr><td class="code">Q13</td><td>재사용 의사</td><td class="tag">F</td></tr>
+          <tr><td class="code">Q14</td><td>전반 도움</td><td class="tag">F</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── 인터랙션 모드 ── -->
+  <div class="section-header">
+    <h2>3가지 인터랙션 모드</h2>
+    <span class="section-sub">Multimodal Interaction</span>
+  </div>
+  <p style="color:var(--muted);font-size:12.5px;margin:0 0 16px;max-width:760px;">
+    학습자는 같은 교육봇을 세 가지 방식으로 사용할 수 있으며, 대시보드는
+    <b style="color:var(--ink)">주 사용 모드</b>와 <b style="color:var(--ink)">가장 도움된 모드</b>의 분포를 도넛 차트로 비교합니다.
+  </p>
+  <div class="mode-grid">
+    <div class="mode">
+      <div class="mode-code">FTF</div>
+      <h4>아바타</h4>
+      <p>Face-to-face. 디지털 휴먼 아바타와 마주 보며 대화하는 가장 몰입도 높은 모드입니다.</p>
+    </div>
+    <div class="mode sts">
+      <div class="mode-code">STS</div>
+      <h4>음성</h4>
+      <p>Speech-to-speech. 음성으로 질문하고 음성으로 답을 듣는 핸즈프리 대화 모드입니다.</p>
+    </div>
+    <div class="mode ttt">
+      <div class="mode-code">TTT</div>
+      <h4>텍스트</h4>
+      <p>Text-to-text. 채팅 형태로 입력하고 텍스트로 답을 받는 기본 모드입니다.</p>
+    </div>
+  </div>
+
+  <!-- ── 분석 항목 ── -->
+  <div class="section-header">
+    <h2>대시보드가 분석하는 항목</h2>
+    <span class="section-sub">What the dashboard breaks down</span>
+  </div>
+  <div class="measure-list">
+    <div class="measure">
+      <div class="m-ic">📊</div>
+      <h4>구인·문항별 평균</h4>
+      <p>6개 구인 가로 막대와 14개 문항의 M·SD·n 표.</p>
+    </div>
+    <div class="measure">
+      <div class="m-ic">🎯</div>
+      <h4>모드 사용 분포</h4>
+      <p>주 사용 모드 / 가장 도움된 모드 도넛 차트.</p>
+    </div>
+    <div class="measure">
+      <div class="m-ic">📈</div>
+      <h4>사전 통계수준별 효과</h4>
+      <p>사전 지식 레벨별 종합·학습효과·정확성 비교.</p>
+    </div>
+    <div class="measure">
+      <div class="m-ic">👥</div>
+      <h4>인구통계</h4>
+      <p>학년 · 성별 · 전공(상위 10) 분포.</p>
+    </div>
+    <div class="measure">
+      <div class="m-ic">💬</div>
+      <h4>자유응답</h4>
+      <p>최신 20건의 도움된 점 / 개선 의견.</p>
+    </div>
+    <div class="measure">
+      <div class="m-ic">🕐</div>
+      <h4>사용 통계</h4>
+      <p>일자별 채팅 · 시간대별 사용 분포.</p>
+    </div>
+  </div>
+
+  <!-- ── 시스템 구성 ── -->
+  <div class="section-header">
+    <h2>시스템 구성</h2>
+    <span class="section-sub">Architecture</span>
+  </div>
+  <div class="arch">
+    <div class="arch-node">
+      <div class="a-role">Client · 대시보드</div>
+      <div class="a-name">cha-statistics-bot-liveavatar.vercel.app</div>
+      <div class="a-desc">Vercel에 배포된 정적 대시보드. Chart.js로 차트를 그리고 토큰 인증으로 데이터를 조회합니다.</div>
+    </div>
+    <div class="arch-node">
+      <div class="a-role">Upstream · API</div>
+      <div class="a-name">aiforalab.com / statistics-api</div>
+      <div class="a-desc">설문·사용 통계 집계 API. usage_summary, survey_summary_v2_edu 액션을 제공합니다.</div>
+    </div>
+    <div class="arch-node">
+      <div class="a-role">Schema · DB</div>
+      <div class="a-name">cha_statistics_db</div>
+      <div class="a-desc">응답·세션 데이터가 저장되는 데이터베이스 스키마.</div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <b>안내 페이지입니다.</b> 이 사이트는 라이브 대시보드의 측정 체계와 설문 구조를 정리한 정적 문서입니다.
+    실시간 집계 수치는 대시보드 토큰이 필요하며, 상단의 <a href="https://cha-statistics-bot-liveavatar.vercel.app/dashboard/" target="_blank" rel="noopener">라이브 대시보드</a>에서 확인할 수 있습니다.
+  </div>
+
+</main>
+
+<footer>
+  <span>경영통계 교육봇 학습자 인식 대시보드 안내</span>
+  <span class="sep">·</span>
+  <span>CLIENT <b>vercel.app</b></span>
+  <span class="sep">·</span>
+  <span>UPSTREAM <b>aiforalab.com</b></span>
+  <span class="sep">·</span>
+  <span>SCHEMA <b>cha_statistics_db</b></span>
+</footer>
+
+</body>
+</html>
