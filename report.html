@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>경영통계 교육봇 학습자 인식 대시보드 · 종합 보고서</title>
+<meta name="description" content="경영통계 교육봇 학습자 인식 대시보드의 모든 내용을 그림과 표로 정리한 종합 보고서 — 6구인·14문항·5점 리커트, 멀티모달 모드, 분석 항목, 시스템·데이터 구조." />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="경영통계 교육봇 학습자 인식 대시보드 · 종합 보고서" />
+<meta property="og:description" content="6구인·14문항·5점 리커트 / 멀티모달 / 분석 항목 / 시스템·데이터 구조 — 그림과 표로 전부 정리" />
+<meta property="og:image" content="thumbnail.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="thumbnail.png" />
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f3; --panel:#fff; --panel-2:#f5f1e8; --line:#e8e1d3; --line-hot:#d4c9b3;
+    --text:#2a2620; --muted:#8a8275; --dim:#b5ad9d;
+    --gold:#b88a5e; --gold-bright:#d4a574; --gold-soft:#e8d3b8;
+    --forest:#5a7d6b; --rust:#c4554d; --slate:#4a6b85; --plum:#8c6b9d; --ink:#2a2620;
+  }
+  *{box-sizing:border-box;}
+  html{background:var(--bg);scroll-behavior:smooth;}
+  body{
+    margin:0;background:
+      radial-gradient(800px 400px at 100% 0%, rgba(184,138,94,.06), transparent 60%),
+      radial-gradient(600px 400px at 0% 100%, rgba(90,125,107,.04), transparent 60%), var(--bg);
+    color:var(--text);font-family:'Pretendard','Noto Sans KR',sans-serif;
+    font-size:14.5px;line-height:1.72;-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold);text-decoration:none;} a:hover{text-decoration:underline;}
+
+  .topbar{position:sticky;top:0;z-index:10;display:grid;grid-template-columns:auto 1fr auto;
+    align-items:center;gap:24px;padding:14px 28px;background:rgba(255,255,255,.88);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));
+    border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;
+    box-shadow:0 4px 12px rgba(184,138,94,.25);}
+  .brand-title{font-weight:800;font-size:14px;color:var(--ink);}
+  .brand-sub{font-size:11px;color:var(--muted);}
+  .btn{background:var(--gold);color:#fff;border:1px solid var(--gold);padding:8px 14px;
+    font:inherit;font-size:12px;font-weight:700;border-radius:8px;text-decoration:none;}
+  .btn:hover{background:var(--gold-bright);text-decoration:none;}
+  .btn.ghost{background:var(--panel);color:var(--text);border-color:var(--line-hot);}
+  .btn.ghost:hover{color:var(--gold);border-color:var(--gold);}
+
+  main{max-width:1000px;margin:0 auto;padding:32px 28px 60px;}
+
+  /* 표지 */
+  .cover{background:linear-gradient(135deg,#fff 0%,#f5f1e8 100%);border:1px solid var(--line);
+    border-radius:20px;padding:46px 44px;position:relative;overflow:hidden;}
+  .cover::after{content:"";position:absolute;right:-70px;top:-70px;width:300px;height:300px;
+    border-radius:50%;background:radial-gradient(circle,rgba(184,138,94,.10),transparent 70%);}
+  .cover .doc-type{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold);background:rgba(184,138,94,.10);
+    padding:5px 12px;border-radius:999px;margin-bottom:18px;}
+  .cover h1{margin:0 0 12px;font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1.25;color:var(--ink);}
+  .cover .lede{margin:0;font-size:15px;color:var(--muted);max-width:680px;}
+  .cover .meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;position:relative;}
+  .cover .meta-row .chip{font-size:12px;font-weight:600;background:var(--panel);
+    border:1px solid var(--line-hot);padding:7px 13px;border-radius:999px;}
+  .cover .meta-row .chip b{color:var(--gold);font-family:'JetBrains Mono',monospace;}
+
+  /* 요약 박스 */
+  .summary{background:#fbf6ee;border:1px solid var(--line-hot);border-left:4px solid var(--gold);
+    border-radius:12px;padding:20px 24px;margin-top:18px;}
+  .summary h4{margin:0 0 8px;font-size:13px;font-weight:800;color:var(--gold);
+    letter-spacing:.04em;text-transform:uppercase;}
+  .summary ul{margin:0;padding-left:18px;} .summary li{margin:4px 0;font-size:13.5px;}
+
+  /* 목차 */
+  .toc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 26px;margin-top:18px;}
+  .toc h4{margin:0 0 12px;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+  .toc ol{margin:0;padding-left:20px;columns:2;column-gap:36px;}
+  .toc li{margin:5px 0;font-size:13.5px;font-weight:600;break-inside:avoid;}
+  .toc li span{color:var(--muted);font-weight:500;}
+
+  /* 섹션 */
+  section{margin-top:44px;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+    padding-left:14px;border-left:4px solid var(--gold);}
+  .sec-head .no{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--gold);}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:var(--ink);}
+  .sec-head .en{color:var(--muted);font-size:12.5px;font-weight:500;}
+  section > p{color:var(--text);margin:14px 0;}
+  section > p.muted{color:var(--muted);}
+
+  h3.sub{font-size:15px;font-weight:800;color:var(--ink);margin:26px 0 8px;}
+
+  /* 그림 */
+  figure{margin:20px 0;background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:18px;}
+  figure img{width:100%;display:block;border-radius:8px;}
+  figure.diagram{padding:24px;}
+  figcaption{margin-top:12px;font-size:12.5px;color:var(--muted);text-align:center;}
+  figcaption b{color:var(--gold);font-weight:700;}
+
+  /* 표 */
+  .tbl-wrap{margin:18px 0;}
+  .tbl-cap{font-size:12.5px;color:var(--muted);margin-bottom:8px;}
+  .tbl-cap b{color:var(--gold);font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  th,td{padding:10px 13px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  thead th{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.04em;background:var(--panel-2);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:rgba(184,138,94,.04);}
+  td.code,th.code{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:600;font-size:12px;white-space:nowrap;}
+  td.mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--slate);}
+  td.c,th.c{text-align:center;}
+  .grp{background:rgba(90,125,107,.06)!important;font-weight:700;color:var(--forest);}
+
+  /* 측정모형 맵 */
+  .model-map{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+  .cnode{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--panel);border-top:3px solid var(--gold);}
+  .cnode.f{border-top-color:var(--forest);} .cnode.s{border-top-color:var(--slate);}
+  .cnode .ctag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--gold);}
+  .cnode.f .ctag{color:var(--forest);} .cnode.s .ctag{color:var(--slate);}
+  .cnode h4{margin:6px 0 3px;font-size:15px;font-weight:800;color:var(--ink);}
+  .cnode .csub{font-size:11.5px;color:var(--muted);margin-bottom:10px;}
+  .cnode ul{margin:0;padding-left:16px;} .cnode li{font-size:12.5px;margin:3px 0;}
+  .cnode li .qc{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:700;font-size:11px;margin-right:4px;}
+
+  /* 흐름도 */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;}
+  .fstep{flex:1;min-width:120px;background:var(--panel-2);border:1px solid var(--line);
+    border-radius:12px;padding:14px 12px;text-align:center;position:relative;}
+  .fstep .fic{font-size:22px;} .fstep .fnm{font-size:12.5px;font-weight:700;color:var(--ink);margin-top:6px;}
+  .fstep .fds{font-size:10.5px;color:var(--muted);margin-top:3px;}
+  .farrow{display:flex;align-items:center;color:var(--gold);font-weight:800;font-size:18px;padding:0 4px;}
+  @media(max-width:640px){.farrow{transform:rotate(90deg);} .flow{flex-direction:column;}}
+
+  .mode-pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;
+    font-weight:700;padding:2px 8px;border-radius:5px;color:#fff;}
+  .mp-ftf{background:var(--gold);} .mp-sts{background:var(--forest);} .mp-ttt{background:var(--slate);}
+
+  .note{background:var(--panel-2);border-radius:10px;padding:14px 18px;margin:16px 0;font-size:13px;color:var(--text);}
+  .note b{color:var(--ink);}
+  .illus{display:inline-block;font-size:10.5px;font-weight:700;color:var(--rust);
+    background:rgba(196,85,77,.10);border:1px solid rgba(196,85,77,.25);
+    padding:2px 7px;border-radius:5px;margin-left:8px;vertical-align:middle;}
+
+  footer{margin-top:54px;padding:24px 0;border-top:1px solid var(--line);
+    color:var(--muted);font-size:11.5px;display:flex;gap:16px;flex-wrap:wrap;}
+  footer b{color:var(--ink);}
+  @media(max-width:700px){main{padding:18px;}.cover{padding:30px 22px;}.cover h1{font-size:25px;}.toc ol{columns:1;}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">통</div>
+    <div>
+      <div class="brand-title">경영통계 교육봇 · 종합 보고서</div>
+      <div class="brand-sub">학습자 인식 대시보드 · v2_edu</div>
+    </div>
+  </div>
+  <div></div>
+  <div style="display:flex;gap:8px;">
+    <a class="btn ghost" href="index.html">안내 페이지</a>
+    <a class="btn" href="https://cha-statistics-bot-liveavatar.vercel.app/dashboard/" target="_blank" rel="noopener">라이브 대시보드 ↗</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- 표지 -->
+  <div class="cover">
+    <span class="doc-type">Comprehensive Report</span>
+    <h1>경영통계 교육봇<br>학습자 인식 대시보드 종합 보고서</h1>
+    <p class="lede">
+      AI 챗봇 기반 <b>경영통계 교육봇</b>의 학습자 인식 설문·사용 통계 대시보드(v2_edu)가
+      측정·시각화하는 <b>모든 내용</b>을 그림과 표로 빠짐없이 정리한 보고서입니다.
+      측정 모형(6구인·14문항), 멀티모달 인터랙션, 분석 항목, 시스템·데이터 구조를 차례로 설명합니다.
+    </p>
+    <div class="meta-row">
+      <span class="chip"><b>6</b> 구인</span>
+      <span class="chip"><b>14</b> 문항</span>
+      <span class="chip"><b>5</b>점 리커트</span>
+      <span class="chip"><b>3</b> 모드</span>
+      <span class="chip"><b>7</b> 그림 · <b>8</b> 표</span>
+    </div>
+  </div>
+
+  <!-- 요약 -->
+  <div class="summary">
+    <h4>한눈에 보는 요약</h4>
+    <ul>
+      <li><b>목적:</b> 경영통계 교육봇을 사용한 학습자의 인식을 6개 구인·14개 문항(5점 리커트)으로 측정하고, 사용 통계와 함께 실시간 집계.</li>
+      <li><b>핵심 지표(KPI):</b> 설문 응답 수, 평균 응답시간(초), 평균 종합점수(/5), 대화 세션·사용자 수.</li>
+      <li><b>멀티모달:</b> FTF(아바타)·STS(음성)·TTT(텍스트) 세 모드의 주 사용 / 가장 도움된 모드 분포 비교.</li>
+      <li><b>분석:</b> 구인·문항별 평균, 모드 분포, 사전 통계수준별 효과, 인구통계(학년·성별·전공), 자유응답, 일자·시간대별 사용.</li>
+      <li><b>구조:</b> 대시보드(Vercel) → statistics-api(aiforalab.com) → cha_statistics_db 스키마.</li>
+    </ul>
+  </div>
+
+  <!-- 목차 -->
+  <nav class="toc">
+    <h4>목차 · Contents</h4>
+    <ol>
+      <li><a href="#s1">개요와 시스템 흐름</a> <span>— 목적·데이터 흐름</span></li>
+      <li><a href="#s2">핵심 지표 (KPI)</a> <span>— 표 1</span></li>
+      <li><a href="#s3">측정 모형: 6구인 14문항</a> <span>— 그림 2·3, 표 2·3</span></li>
+      <li><a href="#s4">인터랙션 모드</a> <span>— 그림 4, 표 4</span></li>
+      <li><a href="#s5">분석 항목</a> <span>— 그림 5·6·7, 표 5·6</span></li>
+      <li><a href="#s6">시스템·데이터 구조</a> <span>— 표 7·8</span></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 개요 -->
+  <section id="s1">
+    <div class="sec-head"><span class="no">01</span><h2>개요와 시스템 흐름</h2><span class="en">Overview</span></div>
+    <p>
+      <b>경영통계 교육봇</b>은 경영통계 수업을 돕는 AI 챗봇으로, 디지털 휴먼 아바타·음성·텍스트의
+      세 가지 방식으로 학습자와 상호작용합니다. 본 대시보드(<span class="mono">v2_edu</span>)는 학습자가
+      교육봇을 사용한 뒤 작성한 <b>인식 설문</b>과, 실제 <b>사용 로그</b>를 한곳에 모아
+      교수자가 학습 효과와 사용 패턴을 한눈에 파악하도록 설계되었습니다.
+    </p>
+    <p class="muted">
+      데이터는 다음 흐름으로 수집·집계·시각화됩니다. 대시보드는 토큰 인증으로 API를 호출하여
+      두 종류의 요약(<span class="mono">usage_summary</span>, <span class="mono">survey_summary_v2_edu</span>)을 받아 차트로 렌더링합니다.
+    </p>
+
+    <figure class="diagram">
+      <div class="flow">
+        <div class="fstep"><div class="fic">🎓</div><div class="fnm">학습자</div><div class="fds">수업 중 교육봇 사용</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="fic">🤖</div><div class="fnm">경영통계 교육봇</div><div class="fds">FTF · STS · TTT</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="fic">📝</div><div class="fnm">인식 설문 v2_edu</div><div class="fds">6구인 · 14문항</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="fic">🗄️</div><div class="fnm">statistics-api · DB</div><div class="fds">cha_statistics_db</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="fic">📊</div><div class="fnm">대시보드</div><div class="fds">실시간 집계·시각화</div></div>
+      </div>
+      <figcaption><b>그림 1.</b> 데이터 수집–집계–시각화 흐름 (학습자 → 교육봇 → 설문 → API/DB → 대시보드)</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2. KPI -->
+  <section id="s2">
+    <div class="sec-head"><span class="no">02</span><h2>핵심 지표 (KPI)</h2><span class="en">Overview KPIs</span></div>
+    <p>대시보드 최상단에는 전체 현황을 요약하는 4개의 핵심 지표가 표시됩니다. 각 지표의 의미·단위·출처는 다음과 같습니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 1.</b> 핵심 지표(KPI) 정의</div>
+      <table>
+        <thead><tr><th>지표</th><th>설명</th><th class="c">단위</th><th>출처 필드</th></tr></thead>
+        <tbody>
+          <tr><td><b>설문 응답</b></td><td>제출된 설문 총건수와 유효 응답 건수</td><td class="c">건</td><td class="mono">totals.total / totals.valid</td></tr>
+          <tr><td><b>평균 응답시간</b></td><td>설문 작성에 걸린 평균 소요 시간</td><td class="c">초</td><td class="mono">totals.avg_duration_sec</td></tr>
+          <tr><td><b>평균 종합점수</b></td><td>전체 종합 인식 점수의 평균</td><td class="c">/5</td><td class="mono">overall_stats.mean</td></tr>
+          <tr><td><b>대화 세션</b></td><td>누적 대화 세션 수와 고유 사용자 수</td><td class="c">건/명</td><td class="mono">totals.sessions_total / users_total</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. 측정 모형 -->
+  <section id="s3">
+    <div class="sec-head edu"><span class="no">03</span><h2>측정 모형 : 6개 구인 · 14개 문항</h2><span class="en">Measurement Model</span></div>
+    <p>
+      학습자 인식은 6개의 <b>구인(construct)</b>으로 구성되며, 각 구인은 1~4개의 <b>문항(item)</b>으로 측정됩니다.
+      모든 문항은 <b>5점 리커트 척도</b>(1=전혀 그렇지 않다 ~ 5=매우 그렇다)입니다. 구인과 문항의 대응 관계는 그림 2와 같습니다.
+    </p>
+
+    <figure class="diagram">
+      <div class="model-map">
+        <div class="cnode">
+          <div class="ctag">A_quiz</div><h4>A. 퀴즈–챗봇 연동</h4>
+          <div class="csub">퀴즈 연동형 novelty</div>
+          <ul><li><span class="qc">Q1</span>퀴즈 즉시 질문</li><li><span class="qc">Q2</span>챗봇 풀이 도움</li></ul>
+        </div>
+        <div class="cnode s">
+          <div class="ctag">B_multimodal</div><h4>B. 멀티모달 인터랙션</h4>
+          <div class="csub">모드 전환</div>
+          <ul><li><span class="qc">Q3</span>모드 전환 가능</li></ul>
+        </div>
+        <div class="cnode f">
+          <div class="ctag">C_presence</div><h4>C. 교수자 실재감</h4>
+          <div class="csub">Teacher Presence</div>
+          <ul><li><span class="qc">Q4</span>교수자 실재감</li><li><span class="qc">Q5</span>부담 없는 분위기</li><li><span class="qc">Q6</span>강의자료 일관성</li></ul>
+        </div>
+        <div class="cnode s">
+          <div class="ctag">D_accuracy</div><h4>D. 정확성·안전감</h4>
+          <div class="csub">Trust</div>
+          <ul><li><span class="qc">Q7</span>답변 정확성</li><li><span class="qc">Q8</span>한계 솔직히 인정</li></ul>
+        </div>
+        <div class="cnode">
+          <div class="ctag">E_flow</div><h4>E. 학습몰입·호기심</h4>
+          <div class="csub">Flow</div>
+          <ul><li><span class="qc">Q9</span>시간 빠르게 감</li><li><span class="qc">Q10</span>호기심 생김</li></ul>
+        </div>
+        <div class="cnode f">
+          <div class="ctag">F_learning</div><h4>F. 인지된 학습효과</h4>
+          <div class="csub">Perceived Learning</div>
+          <ul><li><span class="qc">Q11</span>개념 이해</li><li><span class="qc">Q12</span>자신감 생김</li><li><span class="qc">Q13</span>재사용 의사</li><li><span class="qc">Q14</span>전반 도움</li></ul>
+        </div>
+      </div>
+      <figcaption><b>그림 2.</b> 측정 모형 — 6개 구인과 14개 문항의 대응 관계</figcaption>
+    </figure>
+
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 2.</b> 6개 구인 정의</div>
+      <table>
+        <thead><tr><th class="code">변수명</th><th>구인</th><th>영문 개념</th><th class="c">문항 수</th><th>포함 문항</th></tr></thead>
+        <tbody>
+          <tr><td class="code">A_quiz</td><td>A. 퀴즈–챗봇 연동</td><td>퀴즈 연동형 novelty</td><td class="c">2</td><td>Q1, Q2</td></tr>
+          <tr><td class="code">B_multimodal</td><td>B. 멀티모달 인터랙션</td><td>모드 전환</td><td class="c">1</td><td>Q3</td></tr>
+          <tr><td class="code">C_presence</td><td>C. 교수자 실재감</td><td>Teacher Presence</td><td class="c">3</td><td>Q4, Q5, Q6</td></tr>
+          <tr><td class="code">D_accuracy</td><td>D. 정확성·안전감</td><td>Trust</td><td class="c">2</td><td>Q7, Q8</td></tr>
+          <tr><td class="code">E_flow</td><td>E. 학습몰입·호기심</td><td>Flow</td><td class="c">2</td><td>Q9, Q10</td></tr>
+          <tr><td class="code">F_learning</td><td>F. 인지된 학습효과</td><td>Perceived Learning</td><td class="c">4</td><td>Q11, Q12, Q13, Q14</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>대시보드는 각 구인의 평균을 가로 막대로 보여줍니다(4.0 이상은 녹색, 3.0 미만은 적색으로 강조). 다음은 표시 형태를 보여주는 예시입니다.</p>
+    <figure>
+      <img src="fig-constructs.svg" alt="구인별 평균 가로 막대 차트" />
+      <figcaption><b>그림 3.</b> 구인별 평균 (5점 척도) <span class="illus">예시 데이터</span></figcaption>
+    </figure>
+
+    <h3 class="sub">문항 전체 목록</h3>
+    <p>14개 문항 각각의 코드·내용·소속 구인·내부 변수명은 표 3과 같습니다. 대시보드는 문항별로 평균(M)·표준편차(SD)·응답수(n)를 표로 제공합니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 3.</b> 14개 문항 전체 (코드 · 내용 · 구인 · 변수명)</div>
+      <table>
+        <thead><tr><th class="code">코드</th><th>문항 내용</th><th class="c">구인</th><th>내부 변수명</th></tr></thead>
+        <tbody>
+          <tr><td class="code">Q1</td><td>퀴즈 즉시 질문</td><td class="c">A</td><td class="mono">q_quiz_link</td></tr>
+          <tr><td class="code">Q2</td><td>챗봇 풀이 도움</td><td class="c">A</td><td class="mono">q_quiz_explain</td></tr>
+          <tr><td class="code">Q3</td><td>모드 전환 가능</td><td class="c">B</td><td class="mono">q_mode_switch</td></tr>
+          <tr><td class="code">Q4</td><td>교수자 실재감</td><td class="c">C</td><td class="mono">q_teacher_presence</td></tr>
+          <tr><td class="code">Q5</td><td>부담 없는 분위기</td><td class="c">C</td><td class="mono">q_warm_atmosphere</td></tr>
+          <tr><td class="code">Q6</td><td>강의자료 일관성</td><td class="c">C</td><td class="mono">q_consistent_explain</td></tr>
+          <tr><td class="code">Q7</td><td>답변 정확성</td><td class="c">D</td><td class="mono">q_accuracy</td></tr>
+          <tr><td class="code">Q8</td><td>한계 솔직히 인정</td><td class="c">D</td><td class="mono">q_limit_admit</td></tr>
+          <tr><td class="code">Q9</td><td>시간 빠르게 감</td><td class="c">E</td><td class="mono">q_flow</td></tr>
+          <tr><td class="code">Q10</td><td>호기심 생김</td><td class="c">E</td><td class="mono">q_curiosity</td></tr>
+          <tr><td class="code">Q11</td><td>개념 이해</td><td class="c">F</td><td class="mono">q_understanding</td></tr>
+          <tr><td class="code">Q12</td><td>자신감 생김</td><td class="c">F</td><td class="mono">q_confidence</td></tr>
+          <tr><td class="code">Q13</td><td>재사용 의사</td><td class="c">F</td><td class="mono">q_will_reuse</td></tr>
+          <tr><td class="code">Q14</td><td>전반 도움</td><td class="c">F</td><td class="mono">q_overall</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. 모드 -->
+  <section id="s4">
+    <div class="sec-head"><span class="no">04</span><h2>인터랙션 모드</h2><span class="en">Multimodal Interaction</span></div>
+    <p>학습자는 동일한 교육봇을 세 가지 모드로 사용할 수 있습니다. 각 모드의 정의와 대시보드 색상은 표 4와 같습니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 4.</b> 인터랙션 모드 정의</div>
+      <table>
+        <thead><tr><th class="c">코드</th><th>명칭</th><th>방식</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td class="c"><span class="mode-pill mp-ftf">FTF</span></td><td>아바타</td><td>Face-to-Face</td><td>디지털 휴먼 아바타와 마주 보며 대화 — 가장 몰입도 높은 모드</td></tr>
+          <tr><td class="c"><span class="mode-pill mp-sts">STS</span></td><td>음성</td><td>Speech-to-Speech</td><td>음성으로 질문하고 음성으로 답을 듣는 핸즈프리 대화</td></tr>
+          <tr><td class="c"><span class="mode-pill mp-ttt">TTT</span></td><td>텍스트</td><td>Text-to-Text</td><td>채팅으로 입력하고 텍스트로 답을 받는 기본 모드</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>대시보드는 <b>주 사용 모드</b>와 <b>가장 도움된 모드</b>를 각각 도넛 차트로 비교하여, 학습자가 실제로 많이 쓴 방식과 가장 효과를 느낀 방식의 차이를 보여줍니다.</p>
+    <figure>
+      <img src="fig-modes.svg" alt="모드 사용 분포 도넛 차트" />
+      <figcaption><b>그림 4.</b> 모드 사용 분포 — 주 사용 모드 / 가장 도움된 모드 <span class="illus">예시 데이터</span></figcaption>
+    </figure>
+  </section>
+
+  <!-- 5. 분석 항목 -->
+  <section id="s5">
+    <div class="sec-head"><span class="no">05</span><h2>분석 항목</h2><span class="en">Breakdowns &amp; Usage</span></div>
+    <p>대시보드는 위 지표들을 다양한 기준으로 세분화하여 보여줍니다. 분석 항목 전체 목록은 표 5와 같습니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 5.</b> 분석(브레이크다운) 항목</div>
+      <table>
+        <thead><tr><th>항목</th><th>형태</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><b>구인별 평균</b></td><td>가로 막대</td><td>6개 구인의 평균과 응답수(n)</td></tr>
+          <tr><td><b>문항별 평균</b></td><td>표</td><td>14개 문항의 M · SD · n</td></tr>
+          <tr><td><b>주 사용 모드</b></td><td>도넛</td><td>FTF/STS/TTT 사용 비중</td></tr>
+          <tr><td><b>가장 도움된 모드</b></td><td>도넛</td><td>FTF/STS/TTT 효과 비중</td></tr>
+          <tr><td><b>사전 통계수준별 효과</b></td><td>그룹 막대</td><td>사전 지식 레벨별 종합·학습효과·정확성</td></tr>
+          <tr><td><b>인구통계</b></td><td>표</td><td>학년 · 성별 · 전공(상위 10)</td></tr>
+          <tr><td><b>자유응답</b></td><td>리스트</td><td>최신 20건의 도움된 점 / 개선 의견</td></tr>
+          <tr><td><b>일자별 채팅</b></td><td>막대</td><td>세션 · 활성 사용자 추이</td></tr>
+          <tr><td><b>시간대별 사용</b></td><td>막대</td><td>0–23시 메시지 분포</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">사전 통계수준별 효과</h3>
+    <p>학습자의 사전 통계 지식 수준별로 종합 점수·학습효과·정확성을 비교하여, 교육봇이 어떤 집단에 더 효과적인지 파악합니다.</p>
+    <figure>
+      <img src="fig-prior.svg" alt="사전 통계수준별 효과 그룹 막대 차트" />
+      <figcaption><b>그림 5.</b> 사전 통계수준별 효과 (종합·학습효과·정확성) <span class="illus">예시 데이터</span></figcaption>
+    </figure>
+
+    <h3 class="sub">인구통계</h3>
+    <p>응답자 구성을 학년·성별·전공으로 나누어 표로 제공합니다(전공은 상위 10개). 표 6은 분류 항목과 표시 예시입니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 6.</b> 인구통계 분류 항목 <span class="illus">예시 데이터</span></div>
+      <table>
+        <thead><tr><th>분류</th><th>구분</th><th class="c">예시 응답수</th></tr></thead>
+        <tbody>
+          <tr><td class="grp" rowspan="4">학년 <span class="mono" style="color:var(--forest)">grade</span></td><td>1학년</td><td class="c">—</td></tr>
+          <tr><td>2학년</td><td class="c">—</td></tr>
+          <tr><td>3학년</td><td class="c">—</td></tr>
+          <tr><td>4학년</td><td class="c">—</td></tr>
+          <tr><td class="grp" rowspan="2">성별 <span class="mono" style="color:var(--forest)">gender</span></td><td>남 / 여</td><td class="c">—</td></tr>
+          <tr><td>응답 안 함</td><td class="c">—</td></tr>
+          <tr><td class="grp">전공 <span class="mono" style="color:var(--forest)">major</span></td><td>상위 10개 전공</td><td class="c">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">자유응답</h3>
+    <p>
+      객관식 외에 학습자가 직접 작성한 의견을 최신 20건까지 보여줍니다. 각 응답은
+      <span class="mode-pill mp-ftf" style="background:var(--gold)">도움</span>(도움된 점, <span class="mono">free_helpful</span>) 또는
+      <span class="mode-pill" style="background:var(--rust)">개선</span>(개선 의견, <span class="mono">free_improvement</span>)으로 구분되며,
+      작성 시각과 해당 응답의 종합점수가 함께 표시됩니다.
+    </p>
+
+    <h3 class="sub">사용 통계</h3>
+    <p>설문과 별개로, 교육봇의 실제 사용 로그를 일자별·시간대별로 집계합니다.</p>
+    <figure>
+      <img src="fig-daily.svg" alt="일자별 사용 막대 차트" />
+      <figcaption><b>그림 6.</b> 일자별 사용 — 세션 수와 활성 사용자 수 <span class="illus">예시 데이터</span></figcaption>
+    </figure>
+    <figure>
+      <img src="fig-hourly.svg" alt="시간대별 사용 막대 차트" />
+      <figcaption><b>그림 7.</b> 시간대별 사용 — 0–23시 메시지 분포 <span class="illus">예시 데이터</span></figcaption>
+    </figure>
+  </section>
+
+  <!-- 6. 시스템·데이터 -->
+  <section id="s6">
+    <div class="sec-head"><span class="no">06</span><h2>시스템·데이터 구조</h2><span class="en">Architecture &amp; Data</span></div>
+    <p>대시보드는 정적 클라이언트로서, 토큰 인증 헤더(<span class="mono">X-Dashboard-Token</span>)와 함께 API를 호출하여 두 가지 요약 데이터를 받습니다. API 액션은 표 7과 같습니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 7.</b> API 액션 / 엔드포인트</div>
+      <table>
+        <thead><tr><th class="code">action</th><th>내용</th><th>주요 반환</th></tr></thead>
+        <tbody>
+          <tr><td class="code">usage_summary</td><td>사용 통계 요약</td><td class="mono">totals, activity[], hourly[]</td></tr>
+          <tr><td class="code">survey_summary_v2_edu</td><td>설문 인식 요약</td><td class="mono">totals, overall_stats, construct_stats, item_stats, modes, by_prior_level, demographics, free_responses</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:12.5px;">
+      엔드포인트: <span class="mono">POST /api/school-api?action=…</span> · 인증: 세션 스토리지에 저장된 대시보드 토큰 ·
+      차트 라이브러리: Chart.js 4.4 · 호스팅: Vercel.
+    </p>
+
+    <p>API가 반환하는 주요 데이터 필드(스키마)의 의미는 표 8과 같습니다.</p>
+    <div class="tbl-wrap">
+      <div class="tbl-cap"><b>표 8.</b> 데이터 필드(스키마) 명세</div>
+      <table>
+        <thead><tr><th class="code">필드</th><th>구조</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td class="grp" colspan="3">usage_summary</td></tr>
+          <tr><td class="mono">totals.sessions_total / users_total</td><td>정수</td><td>누적 세션 수 / 고유 사용자 수</td></tr>
+          <tr><td class="mono">activity[]</td><td>{d, sessions, active_users}</td><td>일자별 세션·활성 사용자</td></tr>
+          <tr><td class="mono">hourly[]</td><td>{h, n}</td><td>시간대(0–23)별 메시지 수</td></tr>
+          <tr><td class="mono">as_of</td><td>일시</td><td>집계 기준 시각(업데이트 표시)</td></tr>
+          <tr><td class="grp" colspan="3">survey_summary_v2_edu</td></tr>
+          <tr><td class="mono">totals</td><td>{total, valid, avg_duration_sec}</td><td>응답 총·유효 건수, 평균 소요시간</td></tr>
+          <tr><td class="mono">overall_stats.mean</td><td>실수</td><td>종합 점수 평균(/5)</td></tr>
+          <tr><td class="mono">construct_stats[key]</td><td>{mean, n}</td><td>구인별 평균·응답수</td></tr>
+          <tr><td class="mono">item_stats[key]</td><td>{mean, sd, n}</td><td>문항별 평균·표준편차·응답수</td></tr>
+          <tr><td class="mono">modes.primary / helpful</td><td>[{mode, cnt}]</td><td>주 사용 / 가장 도움된 모드 분포</td></tr>
+          <tr><td class="mono">by_prior_level[]</td><td>{level, n, overall, learning, accuracy}</td><td>사전 통계수준별 효과</td></tr>
+          <tr><td class="mono">demographics</td><td>{grade[], gender[], major[]}</td><td>학년·성별·전공 분포</td></tr>
+          <tr><td class="mono">free_responses[]</td><td>{free_helpful, free_improvement, overall_score, submitted_at}</td><td>자유응답(최신 20)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <b>📌 데이터에 대한 안내.</b> 본 보고서의 그림 3–7과 표 6의 수치는 대시보드의 표시 형태를 설명하기 위한
+      <b>예시(개념 이해용) 데이터</b>입니다. 실제 집계 수치는 대시보드 토큰이 필요하며, 상단의
+      <a href="https://cha-statistics-bot-liveavatar.vercel.app/dashboard/" target="_blank" rel="noopener">라이브 대시보드</a>에서 확인할 수 있습니다.
+      토큰으로 받은 실데이터를 제공해 주시면 동일한 그림·표에 실제 값을 채워 드릴 수 있습니다.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>경영통계 교육봇 학습자 인식 대시보드 · 종합 보고서</span>
+  <span>CLIENT <b>cha-statistics-bot-liveavatar.vercel.app</b></span>
+  <span>UPSTREAM <b>aiforalab.com / statistics-api</b></span>
+  <span>SCHEMA <b>cha_statistics_db</b></span>
+</footer>
+
+</body>
+</html>

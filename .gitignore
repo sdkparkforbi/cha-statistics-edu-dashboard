@@ -1,0 +1,4 @@
+_check_*.png
+_chk_*.png
+__pycache__/
+.claude/
